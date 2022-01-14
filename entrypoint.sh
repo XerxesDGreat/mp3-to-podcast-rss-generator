@@ -1,0 +1,1 @@
+dotnet run --urls *:80 --project mvc/mvc.csproj
