@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime:6.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime:latest
 
 RUN mkdir -p /home/podcast/files && \
     groupadd podcast -g 1000 && \
