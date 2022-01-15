@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -7,6 +8,8 @@ builder.Services.AddDirectoryBrowser();
 
 var app = builder.Build();
 var config = app.Services.GetRequiredService<IConfiguration>();
+
+Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -20,6 +23,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 
+Console.WriteLine(config["PODCAST_FILE_PATH"]);
 var fileProvider = new PhysicalFileProvider(config["PODCAST_FILE_PATH"]);
 var requestPath = "/books";
 
