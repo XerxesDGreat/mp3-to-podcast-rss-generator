@@ -47,7 +47,7 @@ namespace PodcastRSSGenerator
 
         private void HandleImage(string folder, string f, FileInfo fi)
         {
-            string tile_name = $"{folder}\\tile.jpg";
+            string tile_name = Path.Combine(folder, "tile.jpg");
             if (c.itunes_image == null)
             {
                 File.Copy(fi.FullName, tile_name, true);

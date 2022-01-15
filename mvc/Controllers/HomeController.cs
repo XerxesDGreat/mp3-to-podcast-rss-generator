@@ -28,7 +28,8 @@ public class HomeController : Controller
         {
             MP3FileLoader m = new(root, host);
             Channel c = m.LoadFolderAsChannel(d);
-            System.IO.File.WriteAllText(@$"{d}\podcast.rss.xml", m.PodCastText(c));
+            String fileName = Path.Combine(d, "podcast.rss.xml");
+            System.IO.File.WriteAllText(fileName, m.PodCastText(c));
         }
         catch (Exception)
         {
