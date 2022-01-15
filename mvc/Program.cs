@@ -1,4 +1,5 @@
 using Microsoft.Extensions.FileProviders;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -20,7 +21,17 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 
-var fileProvider = new PhysicalFileProvider(config["PODCAST_FILE_PATH"]);
+Console.WriteLine($"looking for podcasts in {config["PODCAST_FILE_PATH"]}");
+PhysicalFileProvider fileProvider;
+try
+{
+    fileProvider = new PhysicalFileProvider(config["PODCAST_FILE_PATH"]);
+}
+catch (System.ArgumentException e)
+{
+    Console.WriteLine($"failed to find directory {config["PODCAST_FILE_PATH"]}; please ensure it exists (error was {e.Message})");
+    throw e;
+}
 var requestPath = "/books";
 
 // Enable displaying browser links.
