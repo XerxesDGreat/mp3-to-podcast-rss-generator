@@ -9,8 +9,6 @@ builder.Services.AddDirectoryBrowser();
 var app = builder.Build();
 var config = app.Services.GetRequiredService<IConfiguration>();
 
-Console.WriteLine(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"));
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -23,8 +21,17 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 
-Console.WriteLine(config["PODCAST_FILE_PATH"]);
-var fileProvider = new PhysicalFileProvider(config["PODCAST_FILE_PATH"]);
+Console.WriteLine($"looking for podcasts in {config["PODCAST_FILE_PATH"]}");
+PhysicalFileProvider fileProvider;
+try
+{
+    fileProvider = new PhysicalFileProvider(config["PODCAST_FILE_PATH"]);
+}
+catch (System.ArgumentException e)
+{
+    Console.WriteLine($"failed to find directory {config["PODCAST_FILE_PATH"]}; please ensure it exists (error was {e.Message})");
+    throw e;
+}
 var requestPath = "/books";
 
 // Enable displaying browser links.
